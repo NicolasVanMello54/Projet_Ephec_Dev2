@@ -1,5 +1,4 @@
 from openpyxl import Workbook
-import os
 
 
 wb = Workbook()
@@ -23,11 +22,7 @@ ws.append(["Sanchez", "Rick", "19204", "C-137 TT", "D17", "2004-02-18", "Confirm
 ws.append(["Smith", "Morty", "19384", "C-137 TT", "B3","2005-08-08", "Confirmes"])
 ws.append(["Abel", "Carl", "24018", "Namur TT", "A14", "2006-04-20", "Confirmes"])
 
-
-dossier_script = os.path.dirname(os.path.abspath(__file__))
-chemin = os.path.join(dossier_script, "joueurs.xlsx")
-
-wb.save(chemin)
+wb.save("joueurs.xlsx")
 print("Fichier Excel cree avec succes")
 
 

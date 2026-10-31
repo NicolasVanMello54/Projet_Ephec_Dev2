@@ -21,3 +21,19 @@ Pour le generer :
     cd data
     python creer_donnees_test.py
  '''
+
+
+ ## Utilisation 
+
+ ### lister tous les joueurs 
+ python main.py -a
+
+ ### Rechercher un joueur par nom
+ python main.py -n nom
+ ex : python main.py -n smith
+
+ ### Rechercher un joueur par licence
+ python main.py -l numero
+ ex: python main.py -l 19384
+
+ 
