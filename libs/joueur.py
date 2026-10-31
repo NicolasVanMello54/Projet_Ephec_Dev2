@@ -50,18 +50,28 @@ class Joueur:
     @property
     def classement(self) -> str:
         return self.__classement
+
+
+    def changer_classement(self,classement):
+        self.__classement = classement
+
+
+    def changer_club(self,club):
+        self.__club = club
     
 
-    
 
     def ajouter_score(self, points):
+        if points < 0:
+            raise ValueError("On ne peut pas retirer de points !")
         self.__score += points
 
     def __str__(self):
-        return f"{self.nom} - Score: {self.score}"
+        return f"{self.prenom} {self.nom} | Licence : {self.numero_de_licence} | Club : {self.club} | Classement : {self.classement} | Score: {self.score}"
 
 
 
-j = Joueur("Dupont", "Jean", "12345", "Wavre TT", "B14", "2015-01-01", "Jeunes")
 
-print(j.score)
+
+
+
