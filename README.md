@@ -36,4 +36,11 @@ Pour le generer :
  python main.py -l numero
  ex: python main.py -l 19384
 
- 
+
+
+
+### Generer les poules
+
+aller dans le dossier libs puis taper
+python3 gestion_groupes.py ../data/joueurs.xlsx
+le fichier de generation devrait se creer dans le dossier libs "generated_groups.py"
