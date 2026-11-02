@@ -7,6 +7,9 @@ class DatasheetError(Exception):
 class InputTypeError(DatasheetError):
     pass
 
+class JoueurIntrouvable(Exception):
+    pass
+
 class AllErrors:
     # eviter l'instanciation de la classe AllErrors
     

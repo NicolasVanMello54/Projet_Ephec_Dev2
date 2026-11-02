@@ -1,6 +1,15 @@
 from openpyxl import load_workbook
 from libs.joueur import Joueur
 import os
+from exceptions import JoueurIntrouvable
+
+
+
+
+
+
+
+
 
 
 def lire_joueurs(chemin_fichier):
@@ -47,3 +56,43 @@ def afficher_joueurs(joueurs):
     for joueur in joueurs.values():
         print(joueur)
 
+
+
+
+class GestionnaireJoueurs:
+    """Classe qui permet de gérer les joueurs"""
+    def __init__(self, chemin_fichier):
+        self.chemin_fichier = chemin_fichier
+        self.joueurs = lire_joueurs(chemin_fichier)
+
+
+
+    def recup_joueur_licence(self, numero_de_licence):
+        """Permet de récupérer un joueur à partir de son numéro de licence"""
+        
+        if numero_de_licence in self.joueurs:
+            return self.joueurs[numero_de_licence]
+        else:
+            raise JoueurIntrouvable(f"Le joueur avec le numéro de licence {numero_de_licence} est introuvable.")
+
+    def recup_joueur_nom_prenom(self, nom, prenom):
+        """Permet de récupérer un joueur à partir de son nom et prénom"""
+        for joueur in self.joueurs.values():
+            if joueur.nom.lower() == nom.lower() and joueur.prenom.lower() == prenom.lower():
+                return joueur
+        raise JoueurIntrouvable(f"Le joueur avec le nom {nom} et le prénom {prenom} est introuvable.")
+
+
+    def recup_tous_les_joueurs(self):
+        """Permet de récupérer tous les joueurs directement en liste d'objets"""
+        return list(self.joueurs.values())
+
+    def recup_joueurs_par_club(self, club):
+        """Permet de récupérer tous les joueurs d'un club donné"""
+        joueurs_du_club = [joueur for joueur in self.joueurs.values() if joueur.club == club]
+        return joueurs_du_club
+
+    def recup_joueurs_par_tableau(self, tableau):
+        """Permet de récupérer tous les joueurs d'un tableau donné"""
+        joueurs_du_tableau = [joueur for joueur in self.joueurs.values() if joueur.tableau_demande == tableau]
+        return joueurs_du_tableau
