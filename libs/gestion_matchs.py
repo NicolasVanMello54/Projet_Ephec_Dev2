@@ -3,7 +3,7 @@ from pathlib import Path
 from openpyxl import load_workbook
 
 
-# Chemin du fichier Excel créé par Donald
+
 FICHIER_GROUPES = Path(__file__).resolve().parent / "generated_groups.xlsx"
 
 
@@ -31,7 +31,7 @@ def creer_matchs(fichier_excel=FICHIER_GROUPES):
     wb = load_workbook(fichier_excel, data_only=True)
     feuille = wb.active
 
-    # Chaque colonne représente une poule
+    
     for colonne in range(1, feuille.max_column + 1):
 
         nom_poule = feuille.cell(row=1, column=colonne).value
@@ -41,14 +41,14 @@ def creer_matchs(fichier_excel=FICHIER_GROUPES):
 
         joueurs = []
 
-        # Récupérer les joueurs de la poule
+        
         for ligne in range(2, feuille.max_row + 1):
             joueur = feuille.cell(row=ligne, column=colonne).value
 
             if joueur is not None and str(joueur).strip():
                 joueurs.append(str(joueur).strip())
 
-        # Créer chaque confrontation une seule fois
+        
         for i in range(len(joueurs)):
             for j in range(i + 1, len(joueurs)):
                 match = Match(
