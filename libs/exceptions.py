@@ -15,7 +15,7 @@ class AllErrors:
         
         if value is None:
             raise InputTypeError(
-                f"Error : The field '{field_name}' contains a null value."
+                f"Erreur: Le champ '{field_name}' ne contient pas de valeur."
             )
             
         # Connversion en chaine et supression des espaces
@@ -23,7 +23,7 @@ class AllErrors:
         
         if not clean_value:
             raise InputTypeError(
-                f"Error : The field '{field_name}' is empty after cleaning."
+                f"Erreur: Le champ '{field_name}' est vide après nettoyage."
             )
             
         return clean_value
@@ -31,6 +31,6 @@ class AllErrors:
     @staticmethod
     def verify_if_file_exists(destination_file: str) -> None:
         if not os.path.exists(destination_file):
-            raise FileNotFoundError(
-                f"File Not Found : The file '{destination_file}' does not exist in this directory."
+            raise DatasheetError(
+                f"Le fichier '{destination_file}' n'existe pas dans ce répertoire."
             )
