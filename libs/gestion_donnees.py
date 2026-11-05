@@ -7,21 +7,9 @@ from .exceptions import JoueurIntrouvable
 
 
 
-
-
-
-
-
 def lire_joueurs(chemin_fichier):
     """Permet d'extraire la liste de joueurs et leurs parametres du fichier excel 
     et de la stocker dans le dico "joueurs"
-    
-    Args:
-            chemin_fichier(str): le chemin du fichier joueurs.xlsx qui se trouve normalement
-            dans le dossier data
-            
-    returns:
-            dict: dictionnaire des joueurs, clé = numéro de licence
             """
 
     if not os.path.exists(chemin_fichier):
