@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 from libs.joueur import Joueur
 import os
-from exceptions import JoueurIntrouvable
+from .exceptions import JoueurIntrouvable
 
 
 
