@@ -40,8 +40,11 @@ def main():
         else:
             print(f"Aucun Joueur avec la licence {args.licence}")
     elif args.nom:
-        resultat = [j for j in joueurs.values()
-                    if args.nom.lower() in j.nom.lower()]
+        resultat = []
+
+        for j in joueurs.values():
+            if args.nom.lower() in j.nom.lower():
+                resultat.append(j)
 
         if resultat:
             for j in resultat:
