@@ -50,3 +50,6 @@ le fichier de generation devrait se creer dans le dossier libs "generated_groups
 Lancer la saisie des scores et afficher automatiquement le premier de chaque poule :
 
 python main.py -m
+
+### Pour generer les matchs
+Taper la commande python gestion_matchs.py --fichier generated_groups.xlsx et remplir les scores
