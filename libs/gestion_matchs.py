@@ -1,15 +1,10 @@
 
-from pathlib import Path
-from openpyxl import load_workbook
-
-
-
-FICHIER_GROUPES = Path(__file__).resolve().parent / "generated_groups.xlsx"
+import argparse
+import os
+from openpyxl import load_workbook, Workbook
 
 
 class Match:
-    """Représente un match entre deux joueurs."""
-
     def __init__(self, joueur1, joueur2, poule):
         self.joueur1 = joueur1
         self.joueur2 = joueur2
@@ -18,57 +13,53 @@ class Match:
         self.score2 = None
 
 
-def creer_matchs(fichier_excel=FICHIER_GROUPES):
-    """Lit les poules Excel et crée tous les matchs."""
+def creer_matchs(fichier_excel):
+    """Lit les poules et crée les matchs entre les joueurs."""
+
+    if not os.path.isfile(fichier_excel):
+        raise FileNotFoundError(
+            f"Le fichier {fichier_excel} n'existe pas."
+        )
+
+    workbook = load_workbook(fichier_excel, data_only=True)
+    feuille = workbook.active
 
     matchs = []
 
-    if not fichier_excel.exists():
-        raise FileNotFoundError(
-            f"Le fichier des groupes est introuvable : {fichier_excel}"
-        )
+    try:
+        for colonne in feuille.iter_cols(min_row=1, values_only=True):
+            joueurs = [
+                valeur for valeur in colonne
+                if valeur is not None
+            ]
 
-    wb = load_workbook(fichier_excel, data_only=True)
-    feuille = wb.active
+            if len(joueurs) < 3:
+                continue
 
-    
-    for colonne in range(1, feuille.max_column + 1):
+            nom_poule = joueurs[0]
+            joueurs = joueurs[1:]
 
-        nom_poule = feuille.cell(row=1, column=colonne).value
+            for i in range(len(joueurs)):
+                for j in range(i + 1, len(joueurs)):
+                    match = Match(
+                        joueurs[i],
+                        joueurs[j],
+                        nom_poule
+                    )
+                    matchs.append(match)
 
-        if nom_poule is None:
-            continue
+    finally:
+        workbook.close()
 
-        joueurs = []
-
-        
-        for ligne in range(2, feuille.max_row + 1):
-            joueur = feuille.cell(row=ligne, column=colonne).value
-
-            if joueur is not None and str(joueur).strip():
-                joueurs.append(str(joueur).strip())
-
-        
-        for i in range(len(joueurs)):
-            for j in range(i + 1, len(joueurs)):
-                match = Match(
-                    joueurs[i],
-                    joueurs[j],
-                    nom_poule
-                )
-                matchs.append(match)
-
-    wb.close()
     return matchs
 
 
 def saisir_scores(matchs):
-    """Permet de saisir manuellement les scores des matchs."""
+    """Demande les scores de chaque match."""
 
     for numero, match in enumerate(matchs, start=1):
 
-        print("\n------------------------------")
-        print(f"{match.poule} - Match {numero}")
+        print(f"\nMatch {numero} - {match.poule}")
         print(f"{match.joueur1} contre {match.joueur2}")
 
         while True:
@@ -85,48 +76,92 @@ def saisir_scores(matchs):
                 break
 
             except ValueError:
-                print("Erreur : entrez des nombres entiers.")
-
-    return matchs
+                print("Veuillez entrer des nombres entiers.")
 
 
-def afficher_matchs(matchs):
-    """Affiche les matchs et leurs scores."""
+def enregistrer_excel(matchs, fichier_sortie):
+    """Enregistre les matchs et leurs scores dans Excel."""
 
-    print("\n========== RÉSULTATS DES MATCHS ==========")
+    workbook = Workbook()
+    feuille = workbook.active
+    feuille.title = "Matchs et scores"
+
+    feuille.append([
+        "Poule",
+        "Joueur 1",
+        "Score 1",
+        "Score 2",
+        "Joueur 2"
+    ])
 
     for match in matchs:
-        print(
-            f"{match.poule} : "
-            f"{match.joueur1} {match.score1} - "
-            f"{match.score2} {match.joueur2}"
+        feuille.append([
+            match.poule,
+            match.joueur1,
+            match.score1,
+            match.score2,
+            match.joueur2
+        ])
+
+    # Ajuste automatiquement la largeur des colonnes
+    for colonne in feuille.columns:
+        largeur = max(
+            len(str(cell.value)) if cell.value is not None else 0
+            for cell in colonne
         )
+        feuille.column_dimensions[
+            colonne[0].column_letter
+        ].width = largeur + 3
+
+    workbook.save(fichier_sortie)
+    workbook.close()
+
+    print(
+        f"\nLes matchs et les scores ont été enregistrés "
+        f"dans {fichier_sortie}."
+    )
+
+
+def creer_parser():
+    """Configure les arguments de la ligne de commande."""
+
+    parser = argparse.ArgumentParser(
+        description="Gestion des matchs du tournoi de tennis de table"
+    )
+
+    parser.add_argument(
+        "-f",
+        "--fichier",
+        required=True,
+        help="Fichier Excel contenant les poules"
+    )
+
+    return parser
 
 
 def main():
-    """Lance la création des matchs et la saisie des scores."""
+    parser = creer_parser()
+    args = parser.parse_args()
 
     try:
-        matchs = creer_matchs()
+        matchs = creer_matchs(args.fichier)
 
         if not matchs:
             print("Aucun match n'a été trouvé.")
             return
 
-        print(f"{len(matchs)} matchs ont été créés.")
-
-        for match in matchs:
-            print(
-                f"{match.poule} : "
-                f"{match.joueur1} contre {match.joueur2}"
-            )
+        print(f"\nNombre de matchs créés : {len(matchs)}")
 
         saisir_scores(matchs)
-        afficher_matchs(matchs)
+
+        enregistrer_excel(
+            matchs,
+            "resultats_tournoi.xlsx"
+        )
 
     except (FileNotFoundError, PermissionError, OSError) as erreur:
-        print(f"Erreur lors de la lecture du fichier Excel : {erreur}")
+        parser.error(str(erreur))
 
 
 if __name__ == "__main__":
-     main()
+    main()
