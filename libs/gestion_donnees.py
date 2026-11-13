@@ -1,14 +1,7 @@
 from openpyxl import load_workbook
 from libs.joueur import Joueur
 import os
-from exceptions import JoueurIntrouvable
-
-
-
-
-
-
-
+from libs.exceptions import JoueurIntrouvable
 
 
 
@@ -59,7 +52,7 @@ def afficher_joueurs(joueurs):
 
 
 
-class GestionnaireJoueurs:
+class TableauJoueurs:
     """Classe qui permet de gérer les joueurs"""
     def __init__(self, chemin_fichier):
         self.chemin_fichier = chemin_fichier
@@ -88,11 +81,17 @@ class GestionnaireJoueurs:
         return list(self.joueurs.values())
 
     def recup_joueurs_par_club(self, club):
-        """Permet de récupérer tous les joueurs d'un club donné"""
-        joueurs_du_club = [joueur for joueur in self.joueurs.values() if joueur.club == club]
+        """Permet de récupérer tous les joueurs d'un club"""
+        joueurs_du_club = []
+        for joueur in self.joueurs.values():
+            if joueur.club == club:
+                joueurs_du_club.append(joueur)
         return joueurs_du_club
 
     def recup_joueurs_par_tableau(self, tableau):
-        """Permet de récupérer tous les joueurs d'un tableau donné"""
-        joueurs_du_tableau = [joueur for joueur in self.joueurs.values() if joueur.tableau_demande == tableau]
+        """Permet de récupérer tous les joueurs d'un tableau"""
+        joueurs_du_tableau = []
+        for joueur in self.joueurs.values():
+            if joueur.tableau_demande == tableau:
+                joueurs_du_tableau.append(joueur)
         return joueurs_du_tableau
