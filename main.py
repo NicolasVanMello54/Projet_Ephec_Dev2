@@ -19,9 +19,6 @@ def parse_arguments():
     parser.add_argument("-m", "--matchs", action="store_true",
                         help="Lance la saisie des scores et calcule le classement")
 
-    #création de commandes pour l'utilisateur (version longue -- et contractée -)
-    #ces commandes sont activées action="store_true" (store_false pour désactiver)
-    #le help montre le texte affiché pour l'option quand l'utilisateur tape "python main.py --help"
 
     return parser.parse_args()
 
@@ -43,8 +40,11 @@ def main():
         else:
             print(f"Aucun Joueur avec la licence {args.licence}")
     elif args.nom:
-        resultat = [j for j in joueurs.values()
-                    if args.nom.lower() in j.nom.lower()]
+        resultat = []
+
+        for j in joueurs.values():
+            if args.nom.lower() in j.nom.lower():
+                resultat.append(j)
 
         if resultat:
             for j in resultat:

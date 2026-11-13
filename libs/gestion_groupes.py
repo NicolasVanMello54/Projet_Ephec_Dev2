@@ -17,7 +17,18 @@ class Player:
     def ranking(self, value) -> None:
         self.__ranking = AllErrors.verify_str(value, field_name="Nom")
 
+"""
+    Répartit aléatoirement les joueurs d'un fichier Excel en poules et enregistre le résultat dans un nouveau fichier Excel.
 
+    PRE :
+        - Le fichier d'entrée existe et est au format Excel (.xlsx).
+        - Le chemin de sortie est une destination valide.
+        - La taille d'une poule est un entier strictement positif (minimum 1).
+    POST :
+        - Ne retourne rien.
+        - Génère un fichier Excel à l'emplacement de sortie contenant les joueurs valides répartis aléatoirement par colonnes (« Poule 1 », « Poule 2 », etc.).
+        - Arrête le programme avec un message d'erreur si le fichier d'entrée est introuvable, vide ou invalide.
+    """
 def generate_groups(input_file, output_file_path, group_length=3):
     try:
         # Validation initiale du fichier via notre classe d'erreurs

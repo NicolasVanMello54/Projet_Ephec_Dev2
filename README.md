@@ -44,3 +44,12 @@ Pour le generer :
 aller dans le dossier libs puis taper
 python3 gestion_groupes.py ../data/joueurs.xlsx
 le fichier de generation devrait se creer dans le dossier libs "generated_groups.py"
+
+
+### Saisie des matchs et calcul du classement des poules
+Lancer la saisie des scores et afficher automatiquement le premier de chaque poule :
+
+python main.py -m
+
+### Pour generer les matchs
+Taper la commande python gestion_matchs.py --fichier generated_groups.xlsx et remplir les scores
