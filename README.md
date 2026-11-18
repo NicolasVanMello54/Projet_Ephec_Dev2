@@ -40,9 +40,8 @@ Pour le generer :
 
 
 ### Generer les poules
-
-aller dans le dossier libs puis taper
-python3 gestion_groupes.py ../data/joueurs.xlsx
+Pour générer les poules:
+python -m libs.gestion_groupes data/joueurs.xlsx -o libs/generated_groups.xlsx
 le fichier de generation devrait se creer dans le dossier libs "generated_groups.py"
 
 

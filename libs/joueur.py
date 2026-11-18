@@ -33,8 +33,8 @@ class Joueur:
     @property
     def age(self) -> int:
         aujourdhui = date.today()
-        ans = today.year - self.__date_naissance.year
-        if (today.month, today.day) < (self.__date_naissance.month, self.__date_naissance.day):
+        ans = aujourdhui.year - self.__date_naissance.year
+        if (aujourdhui.month, aujourdhui.day) < (self.__date_naissance.month, self.__date_naissance.day):
             ans -= 1
         return ans
 
