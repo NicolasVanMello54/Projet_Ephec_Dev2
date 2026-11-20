@@ -27,8 +27,6 @@ def generate_groups(input_file, output_file_path, group_length=3):
 
         gestionnaire = TableauJoueurs(input_file)
         players = gestionnaire.recup_tous_les_joueurs()
-
-
         if not players:
             print("Erreur: Le fichier de données est vide et ne contient aucun joueur valide.")
             sys.exit(1)
@@ -56,7 +54,7 @@ def generate_groups(input_file, output_file_path, group_length=3):
                 )
 
         wb_out.save(output_file_path)
-        print(f"✅ Succès ! Le fichier des groupes a été créé : {output_file_path}")
+        print(f"Succès ! Le fichier des groupes a été créé : {output_file_path}")
 
     except Exception as e:
         print(f"Erreur : Une erreur inattendue s'est produite : {e}\n")
