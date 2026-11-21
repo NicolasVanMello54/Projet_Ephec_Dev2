@@ -1,3 +1,38 @@
+import os
+from openpyxl import load_workbook
+from libs.gestion_matchs import Match
+
+
+
+def lire_matchs_excel(chemin_fichier):
+    """Lit les matchs et leurs scores depuis le fichier Excel généré par gestion_matchs."""
+    if not os.path.isfile(chemin_fichier):
+        raise FileNotFoundError(f"Le fichier {chemin_fichier} est introuvable.")
+
+    wb = load_workbook(chemin_fichier, data_only=True)
+    feuille = wb.active
+    matchs = []
+
+    try:
+        # min_row=2 pour sauter la ligne d'en-tête (Poule, Joueur 1, Score 1, Score 2, Joueur 2)
+        for ligne in feuille.iter_rows(min_row=2, values_only=True):
+            poule, j1, s1, s2, j2 = ligne
+
+            # On ignore les lignes vides ou les matchs sans score
+            if poule is None or s1 is None or s2 is None:
+                continue
+
+            match = Match(j1, j2, poule)
+            match.score1 = int(s1)
+            match.score2 = int(s2)
+            matchs.append(match)
+    finally:
+        wb.close()
+
+    return matchs
+
+
+
 def determiner_vainqueurs_poules(liste_matchs):
     brouillon_scores = {} #on utilise ce dictionnaire comme brouillon dans lequel on met les infos le la liste des matchs
 

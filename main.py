@@ -1,6 +1,6 @@
 from libs.gestion_donnees import lire_joueurs, afficher_joueurs
-from libs.gestion_matchs import creer_matchs, saisir_scores, afficher_matchs
-from libs.gestion_classements import determiner_vainqueurs_poules
+from libs.gestion_matchs import creer_matchs, saisir_scores, enregistrer_excel
+from libs.gestion_classements import determiner_vainqueurs_poules, lire_matchs_excel
 import argparse
 
 
@@ -18,6 +18,8 @@ def parse_arguments():
 
     parser.add_argument("-m", "--matchs", action="store_true",
                         help="Lance la saisie des scores et calcule le classement")
+    parser.add_argument("-c", "--classement", action="store_true",
+                        help="Calcule et affiche le classement depuis le fichier de résultats Excel")
 
 
     return parser.parse_args()
@@ -57,11 +59,22 @@ def main():
 
     # si l'option matchs est tapée par l'utilisateur, on joue les fonctions pour montrer le tableau des scores et trouver le vainqueur de chaque poule
     elif args.matchs:
-        matchs_crees = creer_matchs()#stocker matchs créés par la fonction de Sophie depuis l'excel d'Ange
-        matchs_joues = saisir_scores(matchs_crees)#pour que l'utilisateur encode les scores
-        afficher_matchs(matchs_joues)#montrer tableau des scores
-        determiner_vainqueurs_poules(matchs_joues)#analyser les poules pour trouver le premier de chacune
-    # si l'option matchs est tapée par l'utilisateur, on joue les fonctions pour montrer le tableau des scores et trouver le vainqueur de chaque poule
+        matchs_crees = creer_matchs("libs/generated_groups.xlsx")
+        saisir_scores(matchs_crees)
+        enregistrer_excel(matchs_crees, "libs/resultats_tournoi.xlsx")
+
+        matchs_lus = lire_matchs_excel("libs/resultats_tournoi.xlsx")
+        determiner_vainqueurs_poules(matchs_lus)
+
+    elif args.classement:
+        try:
+            matchs_lus = lire_matchs_excel("libs/resultats_tournoi.xlsx")
+            determiner_vainqueurs_poules(matchs_lus)
+        except FileNotFoundError as erreur:
+            print(f"{erreur}")
+
+
+
 
 if __name__ == "__main__":
     main()
