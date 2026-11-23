@@ -72,7 +72,7 @@ def determiner_vainqueurs_poules(liste_matchs):
             print(str(joueur) + " a " + str(victoires) + " victoire(s)")
 
         #algorythme étape par étape pour trouver le maximum
-        vainqueur = ""
+        vainqueur = []
         max_victoires = -1
 
         for joueur in scores_joueurs:
@@ -80,7 +80,11 @@ def determiner_vainqueurs_poules(liste_matchs):
 
             if victoires_actuelles > max_victoires:
                 max_victoires = victoires_actuelles
-                vainqueur = joueur
+                vainqueur = [joueur]
+            elif victoires_actuelles == max_victoires:
+                vainqueur.append(joueur)
 
-        if vainqueur != "":
-            print("Le premier est : " + str(vainqueur))
+        if len(vainqueur) == 1:
+            print("Le vainqueur de la poule " + str(nom_poule) + " est : " + str(vainqueur[0]))
+        else:
+            print("Il y a un partage de première place dans la " + str(nom_poule) + " entre : " + ", ".join(vainqueur)+ ". Il faudra faire un match de départage entre eux.")
