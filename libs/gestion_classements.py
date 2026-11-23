@@ -76,15 +76,18 @@ def determiner_vainqueurs_poules(liste_matchs):
         max_victoires = -1
 
         for joueur in scores_joueurs:
+            #Liste utilisée pour stocker les joueurs avec le plus de victoires
             victoires_actuelles = scores_joueurs[joueur]
 
             if victoires_actuelles > max_victoires:
                 max_victoires = victoires_actuelles
                 vainqueur = [joueur]
+            #elif pour gerer le cas ou il y'a plusieurs joueurs avec le même nombre de victoires
             elif victoires_actuelles == max_victoires:
                 vainqueur.append(joueur)
 
         if len(vainqueur) == 1:
             print("Le vainqueur de la poule " + str(nom_poule) + " est : " + str(vainqueur[0]))
+            #affichage du message d'erreur si il y a un partage de première place entre plusieurs joueurs, et donc qu'il faudra faire un match de départage entre eux
         else:
             print("Il y a un partage de première place dans la " + str(nom_poule) + " entre : " + ", ".join(vainqueur)+ ". Il faudra faire un match de départage entre eux.")

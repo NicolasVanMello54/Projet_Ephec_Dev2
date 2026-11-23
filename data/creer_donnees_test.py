@@ -9,7 +9,7 @@ ws.append(["nom", "prenom", "numero_de_licence", "club","classement","date_naiss
 
 
 # donnees de test
-ws.append(["Dupont", "Jean", "12345", "Wavre TT", "B14", "2015-01-01", "Jeunes"])
+ws.append(["Dupont", "Jean", "12345", "Wavre TT", "B14", "2000-01-01", "Jeunes"])
 ws.append(["Martin", "Sophie", "67890", "Louvain TT", "C6","2016-05-15", "Jeunes"])
 ws.append(["Durand", "Pierre", "54321", "Brussell TT", "B2", "2014-08-20", "Jeunes"])
 ws.append(["Lefevre", "Marie", "98765", "Namur TT", "D4","2002-03-10", "Debutants"])

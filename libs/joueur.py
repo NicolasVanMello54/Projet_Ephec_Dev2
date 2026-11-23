@@ -13,6 +13,11 @@ class Joueur:
         self.tableau_demande = tableau_demande
         self.__score = score
 
+        if self.age < 7:
+            raise ValueError(f"Inscription refusée : {self.__prenom} {self.__nom} a {self.age} ans (minimum 7 ans requis pour s'inscrire)")
+        if "jeune" in str(self.tableau_demande).lower() and self.age >= 15:
+            raise ValueError(f"Inscription refusée : {self.__prenom} {self.__nom} a {self.age} ans et ne peut pas s'inscrire dans le tableau jeune")
+
 
     @property
     def nom(self) -> str:
