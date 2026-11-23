@@ -1,13 +1,10 @@
 from openpyxl import load_workbook
 from libs.joueur import Joueur
 import os
-<<<<<<< HEAD
-from libs.exceptions import JoueurIntrouvable
-=======
 from .exceptions import JoueurIntrouvable
 
 
->>>>>>> afff5b4ac090ee6156d3ccb835fe4c26b50a60e6
+
 
 
 
